@@ -56,6 +56,5 @@ class Track(models.Model):
     track_number = models.IntegerField(unique=True)
     number_of_tracks = models.IntegerField()
 
-
-def __unicode__(self):
-    return self.title
+    def __unicode__(self):
+        return self.title
