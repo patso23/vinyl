@@ -12,27 +12,27 @@ class Artist(models.Model):
 
 class Label(models.Model):
     name = models.CharField(max_length=100)
-    address_1 = models.CharField(max_length=100)
+    address_1 = models.CharField(max_length=100, blank=True)
     address_2 = models.CharField(max_length=100, blank=True)
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=2)
-    zip = models.CharField(max_length=5)
-    email = models.EmailField(max_length=254)
-    phone = models.CharField(max_length=20)
-    url = models.CharField(max_length=765)
+    city = models.CharField(max_length=50, blank=True)
+    state = models.CharField(max_length=2, blank=True)
+    zip = models.CharField(max_length=5, blank=True)
+    email = models.EmailField(max_length=254, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    url = models.CharField(max_length=765, blank=True)
 
     def __unicode__(self):
         return self.name
 
 
 class Album(models.Model):
-    artist = models.OneToOneField(Artist, related_name="album_artist")
+    artist = models.ForeignKey(Artist)
     album_title = models.CharField(max_length=50)
     label = models.ForeignKey(Label)
-    release_year = models.DateField()
+    release_year = models.DateField(blank=True)
     upc = models.CharField(max_length=13, blank=True)
-    country = models.CharField(max_length=50)
-    url = models.CharField(max_length=765)
+    country = models.CharField(max_length=50, blank=True)
+    url = models.CharField(max_length=765, blank=True)
     FORMATS = (
         ('45_7', '45rpm 7"'),
         ('33_7', '33rpm 7"'),
@@ -50,18 +50,12 @@ class Album(models.Model):
         return self.album_title
 
 
-class TrackListing(models.Model):
-    album = models.OneToOneField(Album, primary_key=True)
-
-    def __unicode__(self):
-        return '%s' % (self.album.album_title)
-
-
 class Track(models.Model):
-    track_listing = models.ForeignKey(TrackListing)
+    album = models.ForeignKey(Album)
     title = models.CharField(max_length=150)
-    track_number = models.IntegerField()
+    track_number = models.IntegerField(unique=True)
     number_of_tracks = models.IntegerField()
 
-    def __unicode__(self):
-        return self.title
+
+def __unicode__(self):
+    return self.title
