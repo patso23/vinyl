@@ -62,7 +62,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'vinyl',
-        'PASSWORD': 'zero11235',
+        'PASSWORD': '*******',
 
     }
 }
